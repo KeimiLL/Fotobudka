@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.mobilne.foto_zabawa.ui.main.MainView
-import com.mobilne.foto_zabawa.ui.main.mainViewModel
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
 import com.mobilne.foto_zabawa.ui.theme.FotozabawaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainView(mainViewModel())
+                    MainView(MainViewModel())
                 }
             }
         }

@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 
@@ -21,7 +20,7 @@ fun PhotoCard(
     ) {
     Card(
         modifier = Modifier
-            .height(230.dp)
+            .fillMaxHeight()
             .width(IntrinsicSize.Min)
             .padding(5.dp),
         elevation = 8.dp,
@@ -39,7 +38,7 @@ fun PhotoCard(
                 painter = painterResource(id = drawableId),
                 contentDescription = description,
                 modifier = Modifier
-                    .height(80.dp)
+                    .wrapContentHeight()
                     .padding(
                         top = 16.dp,
                         start = 8.dp,
@@ -50,12 +49,6 @@ fun PhotoCard(
             Text(
                 text = description,
                 style = MaterialTheme.typography.h5,
-            )
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = description,
-                style = MaterialTheme.typography.subtitle1,
-                textAlign = TextAlign.Justify
             )
         }
 

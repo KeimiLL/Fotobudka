@@ -6,6 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 
-class mainViewModel(): ViewModel() {
+class MainViewModel(): ViewModel() {
     var currentView by mutableStateOf("Settings")
 }
