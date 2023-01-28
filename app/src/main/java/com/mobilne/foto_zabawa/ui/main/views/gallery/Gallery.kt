@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.mobilne.foto_zabawa.R
 
 @Composable
 fun GalleryView() {
@@ -16,7 +17,7 @@ fun GalleryView() {
             .background(Color(0xFFc5ddf6))
             .fillMaxSize()
     ) {
-        Text(text = "xd")
+        PhotoCard(drawableId = R.drawable.settings, description = "Test" )
     }
 }
 

@@ -23,7 +23,7 @@ fun CameraView() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "xd")
+            Text(text = "Camera View")
         }
     }
 }
