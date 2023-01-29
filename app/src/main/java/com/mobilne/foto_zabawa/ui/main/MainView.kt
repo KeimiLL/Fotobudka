@@ -55,7 +55,7 @@ fun MainView(mainViewModel: MainViewModel) {
                 if (mainViewModel.currentView.contains("Settings"))
                     SettingsView(mainViewModel)
                 else if (mainViewModel.currentView.contains("Gallery"))
-                    GalleryView()
+                    GalleryView(mainViewModel = mainViewModel)
                 else if (mainViewModel.currentView.contains("Camera"))
                     CameraView()
             }

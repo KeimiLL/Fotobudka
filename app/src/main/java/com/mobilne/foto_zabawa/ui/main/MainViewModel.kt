@@ -8,4 +8,10 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel(): ViewModel() {
     var currentView by mutableStateOf("Settings")
+
+    var currentCardId by mutableStateOf(0)
+    var currentCardText by mutableStateOf("Test")
+
+
+
 }
