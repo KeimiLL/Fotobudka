@@ -2,35 +2,75 @@ package com.mobilne.foto_zabawa.ui.main.views.gallery
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mobilne.foto_zabawa.R
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
 
 @Composable
-fun GalleryView() {
+fun GalleryView(mainViewModel: MainViewModel) {
     Box(
         modifier = Modifier
             .background(Color(0xFFc5ddf6))
             .padding(8.dp)
             .fillMaxSize()
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .wrapContentHeight()
+                .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
         ) {
-            PhotoCard(drawableId = R.drawable.settings, description = "Test")
-            PhotoCard(drawableId = R.drawable.settings, description = "Urodziny")
-            PhotoCard(drawableId = R.drawable.settings, description = "Wielkanoc")
-            PhotoCard(drawableId = R.drawable.settings, description = "Zima")
+            Row(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Aktualnie wybrany motyw: ",
+                    style = MaterialTheme.typography.h4,
+                    fontWeight = FontWeight.Normal
+                )
+                Text(
+                    text = "${mainViewModel.currentCardText}",
+                    style = MaterialTheme.typography.h4,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                PhotoCard(drawableId = R.drawable.settings, description = "Test", 0, mainViewModel)
+                PhotoCard(
+                    drawableId = R.drawable.settings,
+                    description = "Urodziny",
+                    1,
+                    mainViewModel
+                )
+                PhotoCard(
+                    drawableId = R.drawable.settings,
+                    description = "Wielkanoc",
+                    2,
+                    mainViewModel
+                )
+                PhotoCard(drawableId = R.drawable.settings, description = "Zima", 3, mainViewModel)
+            }
         }
+
     }
 }
 
@@ -40,5 +80,5 @@ fun GalleryView() {
 )
 @Composable
 fun DefaultPreview() {
-    GalleryView()
+    GalleryView(mainViewModel = MainViewModel())
 }

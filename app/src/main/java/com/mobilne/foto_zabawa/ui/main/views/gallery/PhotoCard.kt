@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 fun PhotoCard(
     drawableId: Int,
     description: String,
-
+    id: Int,
+    mainViewModel: MainViewModel
     ) {
     Card(
         modifier = Modifier
@@ -25,7 +26,8 @@ fun PhotoCard(
             .padding(5.dp),
         elevation = 8.dp,
         onClick = {
-// Todo
+            mainViewModel.currentCardId = id
+            mainViewModel.currentCardText = description
         }
     ) {
         Column(
