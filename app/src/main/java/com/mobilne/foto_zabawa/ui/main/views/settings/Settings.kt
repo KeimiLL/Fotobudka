@@ -11,12 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mobilne.foto_zabawa.ui.main.MainViewModel
-import java.util.*
 
 @Composable
 fun SettingsView(mainViewModel: MainViewModel) {
@@ -77,7 +75,12 @@ fun SettingsElement(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = name, fontWeight = FontWeight.Bold, fontSize = 25.sp)
-            Text(text = mainViewModel.readValue(index), fontWeight = FontWeight.ExtraBold, fontSize = 25.sp, color = Color(0xff004f88) )
+            Text(
+                text = mainViewModel.readValue(index),
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 25.sp,
+                color = Color(0xff004f88)
+            )
         }
     }
 }
@@ -101,7 +104,7 @@ fun SettingsButton(
             shape = CircleShape,
             border = BorderStroke(4.dp, Color(0xff004f88)),
             contentPadding = PaddingValues(1.dp),
-            ) {
+        ) {
             Text(
                 text = name,
                 color = Color(0xff004f88),

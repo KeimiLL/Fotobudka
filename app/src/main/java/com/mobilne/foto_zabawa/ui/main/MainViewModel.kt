@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
     //navigation
     var currentView by mutableStateOf("Settings")
 
@@ -15,14 +15,10 @@ class MainViewModel() : ViewModel() {
     var currentCardText by mutableStateOf("Test")
 
     //settings
-    val maxWaitingTime = 10
-
-
-    var timeFirstPhoto by mutableStateOf(5)
-
-    var timeBetweenPhotos by mutableStateOf(3)
-
-    var photosCount by mutableStateOf(6)
+    private val maxWaitingTime = 10
+    private var timeFirstPhoto by mutableStateOf(5)
+    private var timeBetweenPhotos by mutableStateOf(3)
+    private var photosCount by mutableStateOf(6)
 
 
     fun increaseSettingsValue(index: Int) {
@@ -48,7 +44,7 @@ class MainViewModel() : ViewModel() {
                 if (timeBetweenPhotos != 1) timeBetweenPhotos -= 1
             }
             2 -> {
-                if (photosCount != 1) photosCount -= 1
+                if (photosCount != 2) photosCount -= 1
             }
         }
     }
