@@ -11,10 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mobilne.foto_zabawa.ui.main.MainViewModel
+import java.util.*
 
 @Composable
 fun SettingsView(mainViewModel: MainViewModel) {
@@ -29,9 +31,17 @@ fun SettingsView(mainViewModel: MainViewModel) {
                 .padding(5.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            SettingsElement("Czas do pierwszego zdjęcia(s): ", 10)
-            SettingsElement("Czas między zdjęciami(s): ", 3)
-            SettingsElement("Ilość zdjęć: ", 5)
+            SettingsElement(
+                "Czas do pierwszego zdjęcia(s): ",
+                0,
+                mainViewModel
+            )
+            SettingsElement(
+                "Czas między zdjęciami(s): ",
+                1,
+                mainViewModel
+            )
+            SettingsElement("Ilość zdjęć: ", 2, mainViewModel)
         }
     }
 }
@@ -39,7 +49,8 @@ fun SettingsView(mainViewModel: MainViewModel) {
 @Composable
 fun SettingsElement(
     name: String,
-    number: Int
+    index: Int,
+    mainViewModel: MainViewModel,
 ) {
     Row(
         modifier = Modifier
@@ -55,8 +66,8 @@ fun SettingsElement(
                 .padding(vertical = 0.dp, horizontal = 30.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SettingsButton("-")
-            SettingsButton("+")
+            SettingsButton("-", mainViewModel, index)
+            SettingsButton("+", mainViewModel, index)
         }
         Row(
             modifier = Modifier
@@ -66,7 +77,7 @@ fun SettingsElement(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = name, fontWeight = FontWeight.Bold, fontSize = 25.sp)
-            Text(text = number.toString(), fontWeight = FontWeight.ExtraBold, fontSize = 25.sp)
+            Text(text = mainViewModel.readValue(index), fontWeight = FontWeight.ExtraBold, fontSize = 25.sp, color = Color(0xff004f88) )
         }
     }
 }
@@ -74,17 +85,22 @@ fun SettingsElement(
 @Composable
 fun SettingsButton(
     name: String,
+    mainViewModel: MainViewModel,
+    index: Int
 ) {
-    Column() {
+    Column {
         OutlinedButton(
             onClick = {
-//                Todo
+                if (name === "+")
+                    mainViewModel.increaseSettingsValue(index)
+                else
+                    mainViewModel.decreaseSettingsValue(index)
+
             },
             modifier = Modifier.size(50.dp),
             shape = CircleShape,
             border = BorderStroke(4.dp, Color(0xff004f88)),
             contentPadding = PaddingValues(1.dp),
-
             ) {
             Text(
                 text = name,
