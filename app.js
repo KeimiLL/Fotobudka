@@ -3,7 +3,8 @@ const dotenv = require('dotenv'),
   express = require('express'),
   compression = require('compression'),
   errorHandler = require('errorhandler'),
-  logger = require('morgan')
+  logger = require('morgan'),
+  bearerToken = require('express-bearer-token')
 
 dotenv.config({ path: '.env' })
 dotenv.config({ path: '.env.example' })
@@ -14,13 +15,13 @@ app.set('env', process.env.NODE_ENV || 'development')
 app.set('host', process.env.EXPRESS_HOST || '0.0.0.0')
 app.set('port', process.env.EXPRESS_PORT || 8080)
 app.set('trust proxy', process.env.EXPRESS_PROXY)
+app.disable('x-powered-by')
 
 app.use(compression())
 app.use(logger('dev'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
-app.disable('x-powered-by')
+app.use(bearerToken())
 
 require('./services/routes')(app)
 
