@@ -3,7 +3,8 @@ const auth = require('../middleware/auth'),
   os = require('os'),
   path = require('path'),
   upload = multer({ dest: path.join(os.tmpdir(), 'fotobudka') }),
-  storage = require('../services/storage')
+  storage = require('../services/storage'),
+  validUid = require('../middleware/valid-uid')
 
 module.exports = app => {
   app.use(auth)
@@ -12,7 +13,7 @@ module.exports = app => {
     res.sendStatus(404)
   })
 
-  app.get('/settings/:uid', async (req, res, next) =>
+  app.get('/settings/:uid', validUid, async (req, res, next) =>
     storage.readSettings(req.params.uid).then(data => {
       res.json(data)
     }).catch(err => {
@@ -21,7 +22,7 @@ module.exports = app => {
       console.error('Error reading settings:', err)
     }))
 
-  app.post('/settings/:uid', (req, res, next) => {
+  app.post('/settings/:uid', validUid, (req, res, next) => {
     console.log(req.body)
 
     storage.writeSettings(req.params.uid, req.body).then(() => {
@@ -32,7 +33,7 @@ module.exports = app => {
     })
   })
 
-  app.post('/photo/:uid', upload.single('file'), (req, res, next) => {
+  app.post('/photo/:uid', validUid, upload.single('file'), (req, res, next) => {
     storage.addPhoto(req.params.uid, req.file, req.body).then(() => {
       res.sendStatus(200)
     }).catch(err => {
@@ -41,7 +42,7 @@ module.exports = app => {
     })
   })
 
-  app.get('/status/:uid', (req, res, next) => {
+  app.get('/status/:uid', validUid, (req, res, next) => {
     storage.readSettings(req.params.uid).then(settings => {
       const data = { settings }
 
