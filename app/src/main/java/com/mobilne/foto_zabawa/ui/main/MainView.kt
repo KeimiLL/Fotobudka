@@ -94,11 +94,11 @@ fun NavigationButton(
 }
 
 
-@Preview(
-    showBackground = true,
-    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
-)
-@Composable
-fun DefaultPreview() {
-    MainView(MainViewModel())
-}
+//@Preview(
+//    showBackground = true,
+//    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
+//)
+//@Composable
+//fun DefaultPreview() {
+//    MainView(MainViewModel())
+//}
