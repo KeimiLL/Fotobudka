@@ -1,12 +1,35 @@
 package com.mobilne.foto_zabawa.ui.main
 
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mobilne.foto_zabawa.model.TestResponse
+import com.mobilne.foto_zabawa.repository.TestRepository
+import com.mobilne.foto_zabawa.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val testRepository: TestRepository,
+) : ViewModel() {
+    val testResponse: MutableState<Resource<TestResponse>?> = mutableStateOf(null)
+
+    private suspend fun getTestResponse() = viewModelScope.launch {
+        testResponse.value = testRepository.getUserResponse()
+    }
+
+    init {
+        viewModelScope.launch {
+            getTestResponse()
+        }
+    }
+
     //navigation
     var currentView by mutableStateOf("Settings")
 
