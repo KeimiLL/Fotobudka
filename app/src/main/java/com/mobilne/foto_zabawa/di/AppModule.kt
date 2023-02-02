@@ -31,7 +31,7 @@ class AppModule {
     fun providesApi(): ApiInterface {
         val okHttpClient: OkHttpClient
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
 
         okHttpClient = OkHttpClient.Builder()
             .addInterceptor(OAuthInterceptor("Bearer", TOKEN))

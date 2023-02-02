@@ -1,5 +1,6 @@
 package com.mobilne.foto_zabawa.ui.main
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +11,14 @@ import com.mobilne.foto_zabawa.model.TestResponse
 import com.mobilne.foto_zabawa.repository.TestRepository
 import com.mobilne.foto_zabawa.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 
@@ -21,12 +29,34 @@ class MainViewModel @Inject constructor(
     val testResponse: MutableState<Resource<TestResponse>?> = mutableStateOf(null)
 
     private suspend fun getTestResponse() = viewModelScope.launch {
-        testResponse.value = testRepository.getUserResponse()
+        testResponse.value = testRepository.getStatusTest()
+    }
+
+    /**
+     * should work once we have pictures available programmatically
+     * waiting for the camera implementation */
+    private suspend fun postPhotoTest() = viewModelScope.launch {
+        val file = File("")
+        val reqFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val image = MultipartBody.Part.createFormData("file", file.name, reqFile)
+        val cardId: RequestBody = "1".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val cardText: RequestBody = "Test".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        testRepository.postPhotoTest(
+            image,
+            cardId,
+            cardText
+        )
+
+        Log.d("ContentValues", file.name)
+        Log.d("ContentValues", image.toString())
+        Log.d("ContentValues", cardId.toString())
+        Log.d("ContentValues", cardText.toString())
     }
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getTestResponse()
+            postPhotoTest()
         }
     }
 
