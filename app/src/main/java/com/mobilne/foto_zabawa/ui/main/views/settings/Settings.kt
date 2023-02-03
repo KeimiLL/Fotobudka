@@ -1,19 +1,31 @@
 package com.mobilne.foto_zabawa.ui.main.views.settings
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.OutlinedButton
+import androidx.compose.material.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mobilne.foto_zabawa.R
 import com.mobilne.foto_zabawa.ui.main.MainViewModel
 
 @Composable
@@ -23,30 +35,92 @@ fun SettingsView(mainViewModel: MainViewModel) {
             .background(Color(0xFFc5ddf6))
             .fillMaxSize()
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(5.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+            var time1: Int
+            var time2: Int
+            var count: Int
+            var lang: Int
+            if (mainViewModel.language) {
+                time1 = R.string.czas_do
+                time2 = R.string.czas_pomiedzy
+                count = R.string.liczba_zdjec
+                lang = R.string.jezyk
+            }
+            else {
+                time1 = R.string.time_before
+                time2 = R.string.time_between
+                count = R.string.count
+                lang = R.string.language
+            }
             SettingsElement(
-                "Czas do pierwszego zdjęcia(s): ",
-                0,
-                mainViewModel
+                name = time1,
+                index = 0,
+                mainViewModel = mainViewModel
             )
             SettingsElement(
-                "Czas między zdjęciami(s): ",
-                1,
-                mainViewModel
+                name = time2,
+                index = 1,
+                mainViewModel = mainViewModel
             )
-            SettingsElement("Ilość zdjęć: ", 2, mainViewModel)
+            SettingsElement(
+                name = count,
+                index = 2,
+                mainViewModel = mainViewModel
+            )
+            Row(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+                    .padding(vertical = 0.dp, horizontal = 30.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Switch(
+                    checked = mainViewModel.language,
+                    onCheckedChange = { mainViewModel.changeLanguage() },
+
+                    modifier = Modifier
+                        .width(100.dp)
+                        .scale(2f, 2f)
+                        .padding(vertical = 0.dp, horizontal = 30.dp),
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color(0xff004f88),
+                        uncheckedThumbColor = Color(0xff004f88),
+                        checkedTrackColor = Color.White,
+                        uncheckedTrackColor = Color.White,
+                        checkedTrackAlpha = 1.0f,
+                        uncheckedTrackAlpha = 1.0f
+                    )
+                )
+                Row(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .wrapContentWidth()
+                        .padding(vertical = 0.dp, horizontal = 55.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = stringResource(lang), fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                    Text(
+                        text = "  " + mainViewModel.readLanguage(),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 25.sp,
+                        color = Color(0xff004f88)
+                    )
+                }
+            }
+
         }
     }
 }
 
 @Composable
 fun SettingsElement(
-    name: String,
+    name: Int,
     index: Int,
     mainViewModel: MainViewModel,
 ) {
@@ -74,9 +148,9 @@ fun SettingsElement(
                 .padding(vertical = 0.dp, horizontal = 30.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = name, fontWeight = FontWeight.Bold, fontSize = 25.sp)
+            Text(stringResource(name) , fontWeight = FontWeight.Bold, fontSize = 25.sp)
             Text(
-                text = mainViewModel.readValue(index),
+                text = "  " + mainViewModel.readValue(index),
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 25.sp,
                 color = Color(0xff004f88)
@@ -115,6 +189,7 @@ fun SettingsButton(
 
     }
 }
+
 
 //@Preview(
 //    showBackground = true,

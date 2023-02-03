@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">foto-zabawa</string>
+    <!-- Polish  -->
+    <string name="czas_do">Czas do pierwszego zdjęcia(s): </string>
+    <string name="czas_pomiedzy">Czas między zdjęciami(s): </string>
+    <string name="liczba_zdjec">Liczba zdjęć: </string>
+    <string name="jezyk">Język: </string>
+    <!-- English -->
+    <string name="time_before">Time before first photo(s): </string>
+    <string name="time_between">Time between photos(s): </string>
+    <string name="count">Number of photos: </string>
+    <string name="language">Language: </string>
 </resources>
