@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,21 @@ fun GalleryView(mainViewModel: MainViewModel) {
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
+            var title: Int
+            var card2: Int
+            var card3: Int
+            var card4: Int
+            if (mainViewModel.language) {
+                title = R.string.tytul
+                card2 = R.string.card2p
+                card3 = R.string.card3p
+                card4 = R.string.card4p
+            } else {
+                card2 = R.string.card2e
+                card3 = R.string.card3e
+                card4 = R.string.card4e
+                title = R.string.title
+            }
             Row(
                 modifier = Modifier
                     .wrapContentHeight()
@@ -35,8 +51,9 @@ fun GalleryView(mainViewModel: MainViewModel) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+
                 Text(
-                    text = "Aktualnie wybrany motyw: ",
+                    text = stringResource(title)+ " ",
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.Normal
                 )
@@ -62,19 +79,19 @@ fun GalleryView(mainViewModel: MainViewModel) {
                 )
                 PhotoCard(
                     drawableId = R.drawable.birthday,
-                    description = "Urodziny",
+                    description = stringResource(card2),
                     id = 1,
                     mainViewModel = mainViewModel
                 )
                 PhotoCard(
                     drawableId = R.drawable.holiday,
-                    description = "Wakacje",
+                    description = stringResource(card3),
                     id = 2,
                     mainViewModel = mainViewModel
                 )
                 PhotoCard(
                     drawableId = R.drawable.winter,
-                    description = "Zima",
+                    description = stringResource(card4),
                     id = 3,
                     mainViewModel = mainViewModel
                 )

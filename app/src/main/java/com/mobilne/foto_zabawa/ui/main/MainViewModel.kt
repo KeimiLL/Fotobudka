@@ -72,7 +72,7 @@ class MainViewModel @Inject constructor(
     private var timeFirstPhoto by mutableStateOf(5)
     private var timeBetweenPhotos by mutableStateOf(3)
     private var photosCount by mutableStateOf(6)
-
+    var language by mutableStateOf(false)
 
     fun increaseSettingsValue(index: Int) {
         when (index) {
@@ -115,6 +115,17 @@ class MainViewModel @Inject constructor(
             }
         }
         return " "
+    }
+
+    fun changeLanguage() {
+        language = !language
+    }
+
+    fun readLanguage(): String {
+        return if (!language)
+            "English"
+        else
+            "Polski"
     }
 
 }
