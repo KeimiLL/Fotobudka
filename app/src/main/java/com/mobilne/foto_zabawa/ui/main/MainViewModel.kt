@@ -65,7 +65,7 @@ class MainViewModel @Inject constructor(
 
     //gallery
     var currentCardId by mutableStateOf(0)
-    var currentCardText by mutableStateOf("Test")
+    var currentCardText by mutableStateOf("Noir")
 
     //settings
     private val maxWaitingTime = 10

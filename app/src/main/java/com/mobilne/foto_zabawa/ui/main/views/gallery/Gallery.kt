@@ -54,20 +54,30 @@ fun GalleryView(mainViewModel: MainViewModel) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                PhotoCard(drawableId = R.drawable.settings, description = "Test", 0, mainViewModel)
                 PhotoCard(
-                    drawableId = R.drawable.settings,
+                    drawableId = R.drawable.noir,
+                    description = "Noir",
+                    id = 0,
+                    mainViewModel = mainViewModel
+                )
+                PhotoCard(
+                    drawableId = R.drawable.birthday,
                     description = "Urodziny",
-                    1,
-                    mainViewModel
+                    id = 1,
+                    mainViewModel = mainViewModel
                 )
                 PhotoCard(
-                    drawableId = R.drawable.settings,
-                    description = "Wielkanoc",
-                    2,
-                    mainViewModel
+                    drawableId = R.drawable.holiday,
+                    description = "Wakacje",
+                    id = 2,
+                    mainViewModel = mainViewModel
                 )
-                PhotoCard(drawableId = R.drawable.settings, description = "Zima", 3, mainViewModel)
+                PhotoCard(
+                    drawableId = R.drawable.winter,
+                    description = "Zima",
+                    id = 3,
+                    mainViewModel = mainViewModel
+                )
             }
         }
 
