@@ -19,7 +19,7 @@ fun PhotoCard(
     description: String,
     id: Int,
     mainViewModel: MainViewModel
-    ) {
+) {
     Card(
         modifier = Modifier
             .fillMaxHeight()

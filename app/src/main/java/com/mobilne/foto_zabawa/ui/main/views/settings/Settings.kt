@@ -51,8 +51,7 @@ fun SettingsView(mainViewModel: MainViewModel) {
                 time2 = R.string.czas_pomiedzy
                 count = R.string.liczba_zdjec
                 lang = R.string.jezyk
-            }
-            else {
+            } else {
                 time1 = R.string.time_before
                 time2 = R.string.time_between
                 count = R.string.count
@@ -104,7 +103,11 @@ fun SettingsView(mainViewModel: MainViewModel) {
                         .padding(vertical = 0.dp, horizontal = 55.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = stringResource(lang), fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                    Text(
+                        text = stringResource(lang),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp
+                    )
                     Text(
                         text = "  " + mainViewModel.readLanguage(),
                         fontWeight = FontWeight.ExtraBold,
@@ -148,7 +151,7 @@ fun SettingsElement(
                 .padding(vertical = 0.dp, horizontal = 30.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(stringResource(name) , fontWeight = FontWeight.Bold, fontSize = 25.sp)
+            Text(stringResource(name), fontWeight = FontWeight.Bold, fontSize = 25.sp)
             Text(
                 text = "  " + mainViewModel.readValue(index),
                 fontWeight = FontWeight.ExtraBold,
