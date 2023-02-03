@@ -62,7 +62,7 @@ fun MainContent(modifier: Modifier = Modifier) {
             }
         }
     ) {
-        androidx.compose.material.Text("It worked!")
+        CameraPreview(modifier)
     }
 }
 
