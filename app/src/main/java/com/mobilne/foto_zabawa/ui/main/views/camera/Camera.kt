@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mobilne.foto_zabawa.utils.Permission
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -37,6 +38,7 @@ fun CameraView() {
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalPermissionsApi
 @Composable
 fun MainContent(modifier: Modifier = Modifier) {
@@ -62,7 +64,7 @@ fun MainContent(modifier: Modifier = Modifier) {
             }
         }
     ) {
-        CameraPreview(modifier)
+        CameraCapture(modifier)
     }
 }
 
