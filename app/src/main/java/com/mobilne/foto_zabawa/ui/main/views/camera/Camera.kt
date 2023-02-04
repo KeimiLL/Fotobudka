@@ -1,9 +1,6 @@
 package com.mobilne.foto_zabawa.ui.main.views.camera
 
 import android.net.Uri
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,13 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.mobilne.foto_zabawa.ui.main.views.camera.CameraCapture
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-//@ExperimentalCoilApi
-//@ExperimentalCoroutinesApi
-//@ExperimentalPermissionsApi
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalCoilApi::class,
     ExperimentalCoroutinesApi::class
 )
@@ -84,12 +76,3 @@ fun MainContent(modifier: Modifier = Modifier) {
         )
     }
 }
-//
-//@Preview(
-//    showBackground = true,
-//    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
-//)
-//@Composable
-//fun DefaultPreview() {
-//    CameraView()
-//}
