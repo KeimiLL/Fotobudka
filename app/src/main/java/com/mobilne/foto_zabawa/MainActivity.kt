@@ -29,7 +29,10 @@ import com.mobilne.foto_zabawa.ui.main.MainViewModel
 import com.mobilne.foto_zabawa.ui.theme.FotozabawaTheme
 import com.mobilne.foto_zabawa.utils.Permission
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@ExperimentalPermissionsApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
