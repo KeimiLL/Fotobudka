@@ -1,21 +1,33 @@
 package com.mobilne.foto_zabawa
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mobilne.foto_zabawa.ui.main.MainView
 import com.mobilne.foto_zabawa.ui.main.MainViewModel
 import com.mobilne.foto_zabawa.ui.theme.FotozabawaTheme
+import com.mobilne.foto_zabawa.utils.Permission
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,6 +74,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
 
 @Composable
 fun Greeting(name: String) {
