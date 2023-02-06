@@ -17,8 +17,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class AppModule {
-    private val BASE_URL = "https://fotobudka.advers.pl/"
-    private val TOKEN = "vCNjQhm6jy4gyYMWugs76mzNQZjVPzC7"
+    private val _baseUrl = "https://fotobudka.advers.pl/"
+    private val _token = "vCNjQhm6jy4gyYMWugs76mzNQZjVPzC7"
 
     @Singleton
     @Provides
@@ -31,17 +31,17 @@ class AppModule {
     fun providesApi(): ApiInterface {
         val okHttpClient: OkHttpClient
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(OAuthInterceptor("Bearer", TOKEN))
+            .addInterceptor(OAuthInterceptor("Bearer", _token))
             .addInterceptor(httpLoggingInterceptor)
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(_baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

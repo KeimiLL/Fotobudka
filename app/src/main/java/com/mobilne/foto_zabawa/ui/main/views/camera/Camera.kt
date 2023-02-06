@@ -10,11 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +18,18 @@ import androidx.core.net.toUri
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalCoilApi::class,
+@OptIn(
+    ExperimentalPermissionsApi::class, ExperimentalCoilApi::class,
     ExperimentalCoroutinesApi::class
 )
 @Composable
-fun CameraView() {
+fun CameraView(mainViewModel: MainViewModel) {
     Surface(
         modifier = Modifier
             .background(Color(0xFFc5ddf6))
@@ -39,7 +40,7 @@ fun CameraView() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MainContent(Modifier.fillMaxSize())
+            MainContent(Modifier.fillMaxSize(), mainViewModel)
         }
     }
 }
@@ -48,7 +49,7 @@ fun CameraView() {
 @ExperimentalCoroutinesApi
 @ExperimentalPermissionsApi
 @Composable
-fun MainContent(modifier: Modifier = Modifier) {
+fun MainContent(modifier: Modifier = Modifier, mainViewModel: MainViewModel) {
     val emptyImageUri = Uri.parse("file://dev/null")
     var imageUri by remember { mutableStateOf(emptyImageUri) }
     if (imageUri != emptyImageUri) {
@@ -72,6 +73,9 @@ fun MainContent(modifier: Modifier = Modifier) {
             modifier = modifier,
             onImageFile = { file ->
                 imageUri = file.toUri()
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel.postPhotoTest(file)
+                }
             }
         )
     }
