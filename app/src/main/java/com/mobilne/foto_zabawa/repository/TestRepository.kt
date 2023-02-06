@@ -1,6 +1,5 @@
 package com.mobilne.foto_zabawa.repository
 
-import com.mobilne.foto_zabawa.model.TestResponse
 import com.mobilne.foto_zabawa.network.ApiInterface
 import com.mobilne.foto_zabawa.utils.Resource
 import dagger.hilt.android.scopes.ActivityScoped
@@ -14,16 +13,6 @@ import javax.inject.Inject
 class TestRepository @Inject constructor(
     private val apiInterface: ApiInterface
 ) {
-
-    suspend fun getStatusTest(): Resource<TestResponse> {
-        val response = try {
-            apiInterface.getStatusTest()
-        } catch (e: Exception) {
-            return Resource.Error("An unknown error occurred: ${e.localizedMessage}")
-        }
-
-        return Resource.Success(response)
-    }
 
     suspend fun postPhotoTest(
         @Part imagePart: MultipartBody.Part,
