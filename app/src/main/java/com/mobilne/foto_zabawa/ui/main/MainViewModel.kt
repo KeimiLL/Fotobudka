@@ -29,12 +29,12 @@ class MainViewModel @Inject constructor(
             currentCardId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val cardText: RequestBody =
             currentCardText.toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        testRepository.postPhotoTest(
+        val response = testRepository.postPhotoTest(
             image,
             cardId,
             cardText
         )
-        apiResponseCount++
+        if (response.data?.string() === "OK") apiResponseCount++
     }
 
     //navigation
