@@ -1,17 +1,16 @@
 package com.mobilne.foto_zabawa.ui.main
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobilne.foto_zabawa.model.TestResponse
 import com.mobilne.foto_zabawa.repository.TestRepository
-import com.mobilne.foto_zabawa.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -26,38 +25,20 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val testRepository: TestRepository,
 ) : ViewModel() {
-    val testResponse: MutableState<Resource<TestResponse>?> = mutableStateOf(null)
 
-    private suspend fun getTestResponse() = viewModelScope.launch {
-        testResponse.value = testRepository.getStatusTest()
-    }
-
-    /**
-     * should work once we have pictures available programmatically
-     * waiting for the camera implementation */
-    private suspend fun postPhotoTest() = viewModelScope.launch {
-        val file = File("")
+    suspend fun postPhotoTest(file: File) = viewModelScope.launch {
         val reqFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val image = MultipartBody.Part.createFormData("file", file.name, reqFile)
-        val cardId: RequestBody = "1".toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val cardText: RequestBody = "Test".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val cardId: RequestBody =
+            currentCardId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val cardText: RequestBody =
+            currentCardText.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         testRepository.postPhotoTest(
             image,
             cardId,
             cardText
         )
-
-        Log.d("ContentValues", file.name)
-        Log.d("ContentValues", image.toString())
-        Log.d("ContentValues", cardId.toString())
-        Log.d("ContentValues", cardText.toString())
-    }
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            getTestResponse()
-            postPhotoTest()
-        }
+        apiResponseCount++
     }
 
     //navigation
@@ -73,6 +54,13 @@ class MainViewModel @Inject constructor(
     private var timeBetweenPhotos by mutableStateOf(3)
     private var photosCount by mutableStateOf(6)
     var language by mutableStateOf(false)
+
+    // should be reset on every camera button click
+    var apiResponseCount by mutableStateOf(0)
+
+    fun resetApiResponseCount() {
+        apiResponseCount = 0
+    }
 
     fun increaseSettingsValue(index: Int) {
         when (index) {
@@ -127,5 +115,4 @@ class MainViewModel @Inject constructor(
         else
             "Polski"
     }
-
 }
