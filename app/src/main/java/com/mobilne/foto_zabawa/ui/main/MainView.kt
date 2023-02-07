@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mobilne.foto_zabawa.R
@@ -69,9 +68,7 @@ fun NavigationButton(
     name: String,
     mainViewModel: MainViewModel
 ) {
-    // Fetching the local context
-    val mContext = LocalContext.current
-    Column() {
+    Column{
         OutlinedButton(
             onClick = {
                 mainViewModel.currentView = name
@@ -80,7 +77,8 @@ fun NavigationButton(
             shape = CircleShape,
             border = BorderStroke(5.dp, Color(0xff004f88)),
             contentPadding = PaddingValues(1.dp),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue)
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue),
+            enabled = mainViewModel.isButtonEnable
         ) {
             // Adding an Icon "Add" inside the Button
             Image(
