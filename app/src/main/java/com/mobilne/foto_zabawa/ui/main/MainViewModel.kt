@@ -101,6 +101,21 @@ class MainViewModel @Inject constructor(
         return " "
     }
 
+    fun getValue(index: Int): Int {
+        when (index) {
+            0 -> {
+                return timeFirstPhoto
+            }
+            1 -> {
+                return timeBetweenPhotos
+            }
+            2 -> {
+                return photosCount
+            }
+        }
+        return 0
+    }
+
     fun changeLanguage() {
         language = !language
     }

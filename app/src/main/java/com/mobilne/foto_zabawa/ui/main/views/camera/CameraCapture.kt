@@ -3,6 +3,7 @@ package com.mobilne.foto_zabawa.ui.main.views.camera
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import androidx.camera.core.CameraSelector
@@ -26,6 +27,8 @@ import com.mobilne.foto_zabawa.utils.Permission
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
+import kotlin.concurrent.timerTask
 
 @ExperimentalPermissionsApi
 @ExperimentalCoroutinesApi
@@ -94,11 +97,13 @@ fun CameraCapture(
                         .padding(16.dp)
                         .align(Alignment.BottomCenter),
                     onClick = {
-                        coroutineScope.launch {
-                            imageCaptureUseCase.takePicture(context.executor).let {
-                                onImageFile(it)
+                        Timer().schedule(timerTask {
+                            coroutineScope.launch {
+                                imageCaptureUseCase.takePicture(context.executor).let {
+                                    onImageFile(it)
+                                }
                             }
-                        }
+                        }, (mainViewModel.getValue(1) * 1000).toLong())
                     }
                 )
             }
