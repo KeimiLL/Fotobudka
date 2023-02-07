@@ -28,6 +28,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
+import kotlin.concurrent.fixedRateTimer
 import kotlin.concurrent.timerTask
 
 @ExperimentalPermissionsApi
@@ -97,14 +98,21 @@ fun CameraCapture(
                         .padding(16.dp)
                         .align(Alignment.BottomCenter),
                     onClick = {
-                        Timer().schedule(timerTask {
+                        mainViewModel.disableButton()
+                        fixedRateTimer(
+                            name = "photo-timer",
+                            initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
+                            period = (mainViewModel.getValue(1) * 1000).toLong(),
+                            daemon = true
+                        ) {
                             coroutineScope.launch {
                                 imageCaptureUseCase.takePicture(context.executor).let {
                                     onImageFile(it)
                                 }
                             }
-                        }, (mainViewModel.getValue(1) * 1000).toLong());
-                        mainViewModel.disableButton()
+                            if (mainViewModel.isButtonEnable)
+                                this.cancel()
+                        }
                     },
                     mainViewModel = mainViewModel
                 )
