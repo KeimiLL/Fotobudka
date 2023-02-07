@@ -34,10 +34,10 @@ fun SettingsView(mainViewModel: MainViewModel) {
                 .padding(5.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            var time1: Int
-            var time2: Int
-            var count: Int
-            var lang: Int
+            val time1: Int
+            val time2: Int
+            val count: Int
+            val lang: Int
             if (mainViewModel.language) {
                 time1 = R.string.czas_do
                 time2 = R.string.czas_pomiedzy

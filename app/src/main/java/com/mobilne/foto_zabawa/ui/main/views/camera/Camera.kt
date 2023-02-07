@@ -76,7 +76,8 @@ fun MainContent(modifier: Modifier = Modifier, mainViewModel: MainViewModel) {
                 CoroutineScope(Dispatchers.IO).launch {
                     mainViewModel.postPhotoTest(file)
                 }
-            }
+            },
+            mainViewModel = mainViewModel
         )
     }
 }

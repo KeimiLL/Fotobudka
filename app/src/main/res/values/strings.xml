@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">foto-zabawa</string>
     <!-- Polish  -->
+    <!--Settings-->
     <string name="czas_do">Czas do pierwszego zdjęcia(s): </string>
     <string name="czas_pomiedzy">Czas między zdjęciami(s): </string>
     <string name="liczba_zdjec">Liczba zdjęć: </string>
@@ -9,7 +10,12 @@
     <string name="card2p">Urodziny </string>
     <string name="card3p">Wakacje </string>
     <string name="card4p">Zima </string>
+    <!-- Camera  -->
+    <string name="pozwolenie">Jeśli chcesz sobie zrobić zdjęcie, pozwól nam użyć kamery na te ujęcie</string>
+    <string name="niepozwolenie">Ups! Brak Kamerki!</string>
+    <string name="ustawienia">Otwórz ustawienia</string>
     <!-- English -->
+    <!--Settings -->
     <string name="time_before">Time before first photo(s): </string>
     <string name="time_between">Time between photos(s): </string>
     <string name="count">Number of photos: </string>
@@ -18,5 +24,8 @@
     <string name="card2e">Birthday </string>
     <string name="card3e">Holiday </string>
     <string name="card4e">Winter </string>
-
+    <!-- Camera -->
+    <string name="permission">You said you wanted a picture, so I am going to have to ask for permission.</string>
+    <string name="nopermission">O noes! No Camera!</string>
+    <string name="settings">Open Settings</string>
 </resources>
