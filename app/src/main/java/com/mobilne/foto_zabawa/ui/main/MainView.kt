@@ -39,7 +39,6 @@ fun MainView(mainViewModel: MainViewModel) {
                     .padding(10.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-
                 NavigationButton(R.drawable.settings, "Settings", mainViewModel)
                 NavigationButton(R.drawable.camera, "Camera", mainViewModel)
                 NavigationButton(R.drawable.gallery, "Gallery", mainViewModel)
@@ -68,7 +67,7 @@ fun NavigationButton(
     name: String,
     mainViewModel: MainViewModel
 ) {
-    Column{
+    Column {
         OutlinedButton(
             onClick = {
                 mainViewModel.currentView = name
