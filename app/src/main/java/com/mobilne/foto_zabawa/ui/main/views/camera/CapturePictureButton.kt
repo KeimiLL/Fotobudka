@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
 
 @Composable
 fun CapturePictureButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { },
+    mainViewModel: MainViewModel
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -43,25 +45,27 @@ fun CapturePictureButton(
                 backgroundColor = color
             ),
             interactionSource = interactionSource,
-            onClick = onClick
+            onClick = onClick,
+            enabled = mainViewModel.isButtonEnable
         ) {
             // No content
         }
     }
 }
 
-@Preview
-@Composable
-fun PreviewCapturePictureButton() {
-    Scaffold(
-        modifier = Modifier
-            .size(125.dp)
-            .wrapContentSize()
-    ) { innerPadding ->
-        CapturePictureButton(
-            modifier = Modifier
-                .padding(innerPadding)
-                .size(100.dp)
-        )
-    }
-}
+//@Preview
+//@Composable
+//fun PreviewCapturePictureButton() {
+//    Scaffold(
+//        modifier = Modifier
+//            .size(125.dp)
+//            .wrapContentSize()
+//    ) { innerPadding ->
+//        CapturePictureButton(
+//            modifier = Modifier
+//                .padding(innerPadding)
+//                .size(100.dp)
+//
+//        )
+//    }
+//}

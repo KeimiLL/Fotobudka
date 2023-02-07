@@ -14,7 +14,9 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.timerTask
 
 
 @HiltViewModel
@@ -36,6 +38,9 @@ class MainViewModel @Inject constructor(
         )
         if (response.data?.string() === "OK") apiResponseCount++
     }
+
+    //camera
+    var isButtonEnable by mutableStateOf(true)
 
     //navigation
     var currentView by mutableStateOf("Settings")
@@ -125,5 +130,12 @@ class MainViewModel @Inject constructor(
             "English"
         else
             "Polski"
+    }
+
+    fun disableButton() {
+        isButtonEnable = false
+        Timer().schedule(timerTask {
+            isButtonEnable = true
+        }, ((photosCount * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
     }
 }

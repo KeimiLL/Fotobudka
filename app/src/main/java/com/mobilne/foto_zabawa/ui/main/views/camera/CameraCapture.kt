@@ -103,8 +103,10 @@ fun CameraCapture(
                                     onImageFile(it)
                                 }
                             }
-                        }, (mainViewModel.getValue(1) * 1000).toLong())
-                    }
+                        }, (mainViewModel.getValue(1) * 1000).toLong());
+                        mainViewModel.disableButton()
+                    },
+                    mainViewModel = mainViewModel
                 )
             }
             LaunchedEffect(previewUseCase) {
