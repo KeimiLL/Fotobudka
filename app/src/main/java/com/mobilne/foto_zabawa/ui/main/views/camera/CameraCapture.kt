@@ -17,8 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.mobilne.foto_zabawa.R
+import com.mobilne.foto_zabawa.ui.main.MainViewModel
 import com.mobilne.foto_zabawa.utils.Permission
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -30,15 +33,28 @@ import java.io.File
 fun CameraCapture(
     modifier: Modifier = Modifier,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
-    onImageFile: (File) -> Unit = { }
+    onImageFile: (File) -> Unit = { },
+    mainViewModel: MainViewModel
 ) {
     val context = LocalContext.current
+    val stringForPermissionLanguage: Int
+    val stringForNoPermissionLanguage: Int
+    val stringForOpenSettings: Int
+    if (!mainViewModel.language) {
+        stringForPermissionLanguage = R.string.permission
+        stringForNoPermissionLanguage = R.string.nopermission
+        stringForOpenSettings = R.string.settings
+    } else {
+        stringForPermissionLanguage = R.string.pozwolenie
+        stringForNoPermissionLanguage = R.string.niepozwolenie
+        stringForOpenSettings = R.string.ustawienia
+    }
     Permission(
         permission = Manifest.permission.CAMERA,
-        rationale = "You said you wanted a picture, so I'm going to have to ask for permission.",
+        rationale = stringResource(stringForPermissionLanguage),
         permissionNotAvailableContent = {
             Column(modifier) {
-                Text("O noes! No Camera!")
+                Text(stringResource(stringForNoPermissionLanguage))
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
@@ -49,7 +65,7 @@ fun CameraCapture(
                         )
                     }
                 ) {
-                    Text("Open Settings")
+                    Text(stringResource(stringForOpenSettings))
                 }
             }
         }
