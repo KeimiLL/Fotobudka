@@ -27,10 +27,10 @@ fun GalleryView(mainViewModel: MainViewModel) {
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            var title: Int
-            var card2: Int
-            var card3: Int
-            var card4: Int
+            val title: Int
+            val card2: Int
+            val card3: Int
+            val card4: Int
             if (mainViewModel.language) {
                 title = R.string.tytul
                 card2 = R.string.card2p
@@ -57,7 +57,7 @@ fun GalleryView(mainViewModel: MainViewModel) {
                     fontWeight = FontWeight.Normal
                 )
                 Text(
-                    text = "${mainViewModel.currentCardText}",
+                    text = mainViewModel.currentCardText,
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.Bold
                 )
