@@ -155,8 +155,12 @@ class MainViewModel @Inject constructor(
     }
 
 
+    fun alertSound(context: Context){
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.alert)
+        mp.start()
+    }
     fun photoSound(context: Context){
-        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.photo)
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.casual)
         mp.start()
     }
     fun endSound(context: Context){

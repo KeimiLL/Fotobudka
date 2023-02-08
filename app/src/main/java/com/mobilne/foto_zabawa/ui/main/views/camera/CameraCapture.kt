@@ -109,20 +109,39 @@ fun CameraCapture(
 //                            }
 //                        }, ((mainViewModel.getValue(0)) * 1000).toLong())
 //                        Interval
+                        var counter: Int = 0
+                        fixedRateTimer(
+                            name = "alert-timer",
+                            initialDelay = 0,
+                            period = 1000,
+                            daemon = true
+                        ) {
+
+                            if (counter < mainViewModel.getValue(0) || (counter - mainViewModel.getValue(
+                                    0
+                                )) % mainViewModel.getValue(1) != 0
+                            ) {
+                                mainViewModel.alertSound(context = context)
+                            }
+                            if (mainViewModel.isButtonEnable) {
+                                this.cancel()
+                            }
+                            counter++
+                        }
                         fixedRateTimer(
                             name = "photo-timer",
                             initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
                             period = (mainViewModel.getValue(1) * 1000).toLong(),
                             daemon = true
                         ) {
-                            mainViewModel.photoSound(context= context)
+                            mainViewModel.photoSound(context = context)
                             coroutineScope.launch {
                                 imageCaptureUseCase.takePicture(context.executor).let {
                                     onImageFile(it)
                                 }
                             }
                             if (mainViewModel.isButtonEnable) {
-                                mainViewModel.endSound(context= context)
+                                mainViewModel.endSound(context = context)
                                 this.cancel()
                             }
                         }
