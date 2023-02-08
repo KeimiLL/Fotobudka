@@ -1,10 +1,13 @@
 package com.mobilne.foto_zabawa.ui.main
 
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobilne.foto_zabawa.R
 import com.mobilne.foto_zabawa.repository.TestRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -141,7 +144,7 @@ class MainViewModel @Inject constructor(
         isButtonEnable = false
         Timer().schedule(timerTask {
             isButtonEnable = true
-        }, ((photosCount * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
+        }, (((photosCount-1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
     }
     //tylko opóźnienie pierwszego zdjęcia
     fun disableButtonDelay() {
@@ -151,4 +154,13 @@ class MainViewModel @Inject constructor(
         }, (timeFirstPhoto * 1000).toLong())
     }
 
+
+    fun photoSound(context: Context){
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.photo)
+        mp.start()
+    }
+    fun endSound(context: Context){
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.end)
+        mp.start()
+    }
 }

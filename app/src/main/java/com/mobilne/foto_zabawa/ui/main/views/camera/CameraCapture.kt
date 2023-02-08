@@ -3,7 +3,6 @@ package com.mobilne.foto_zabawa.ui.main.views.camera
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import androidx.camera.core.CameraSelector
@@ -101,28 +100,32 @@ fun CameraCapture(
                     onClick = {
                         mainViewModel.disableButton()
                         //Delay
-                        Timer().schedule(timerTask {
-                            coroutineScope.launch {
-                                imageCaptureUseCase.takePicture(context.executor).let {
-                                    onImageFile(it)
-                                }
-                            }
-                        }, ((mainViewModel.getValue(0)) * 1000).toLong())
-//                        Interval
-//                        fixedRateTimer(
-//                            name = "photo-timer",
-//                            initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
-//                            period = (mainViewModel.getValue(1) * 1000).toLong(),
-//                            daemon = true
-//                        ) {
+//                        Timer().schedule(timerTask {
+//                            mainViewModel.photoSound(context= context)
 //                            coroutineScope.launch {
 //                                imageCaptureUseCase.takePicture(context.executor).let {
 //                                    onImageFile(it)
 //                                }
 //                            }
-//                            if (mainViewModel.isButtonEnable)
-//                                this.cancel()
-//                        }
+//                        }, ((mainViewModel.getValue(0)) * 1000).toLong())
+//                        Interval
+                        fixedRateTimer(
+                            name = "photo-timer",
+                            initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
+                            period = (mainViewModel.getValue(1) * 1000).toLong(),
+                            daemon = true
+                        ) {
+                            mainViewModel.photoSound(context= context)
+                            coroutineScope.launch {
+                                imageCaptureUseCase.takePicture(context.executor).let {
+                                    onImageFile(it)
+                                }
+                            }
+                            if (mainViewModel.isButtonEnable) {
+                                mainViewModel.endSound(context= context)
+                                this.cancel()
+                            }
+                        }
                     },
                     mainViewModel = mainViewModel
                 )
