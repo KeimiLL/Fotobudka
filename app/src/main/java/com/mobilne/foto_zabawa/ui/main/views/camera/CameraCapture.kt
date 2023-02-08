@@ -56,6 +56,7 @@ fun CameraCapture(
     Permission(
         permission = Manifest.permission.CAMERA,
         rationale = stringResource(stringForPermissionLanguage),
+        mainViewModel = mainViewModel,
         permissionNotAvailableContent = {
             Column(modifier) {
                 Text(stringResource(stringForNoPermissionLanguage))
@@ -99,20 +100,29 @@ fun CameraCapture(
                         .align(Alignment.BottomCenter),
                     onClick = {
                         mainViewModel.disableButton()
-                        fixedRateTimer(
-                            name = "photo-timer",
-                            initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
-                            period = (mainViewModel.getValue(1) * 1000).toLong(),
-                            daemon = true
-                        ) {
+                        //Delay
+                        Timer().schedule(timerTask {
                             coroutineScope.launch {
                                 imageCaptureUseCase.takePicture(context.executor).let {
                                     onImageFile(it)
                                 }
                             }
-                            if (mainViewModel.isButtonEnable)
-                                this.cancel()
-                        }
+                        }, ((mainViewModel.getValue(0)) * 1000).toLong())
+//                        Interval
+//                        fixedRateTimer(
+//                            name = "photo-timer",
+//                            initialDelay = (mainViewModel.getValue(0) * 1000).toLong(),
+//                            period = (mainViewModel.getValue(1) * 1000).toLong(),
+//                            daemon = true
+//                        ) {
+//                            coroutineScope.launch {
+//                                imageCaptureUseCase.takePicture(context.executor).let {
+//                                    onImageFile(it)
+//                                }
+//                            }
+//                            if (mainViewModel.isButtonEnable)
+//                                this.cancel()
+//                        }
                     },
                     mainViewModel = mainViewModel
                 )

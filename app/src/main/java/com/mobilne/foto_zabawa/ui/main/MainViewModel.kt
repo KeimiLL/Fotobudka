@@ -130,12 +130,25 @@ class MainViewModel @Inject constructor(
             "English"
         else
             "Polski"
+//        return if (!language)
+//            apiResponseCount.toString()
+//        else
+//            apiResponseCount.toString()
     }
 
+    //liczy wszytskei działania
     fun disableButton() {
         isButtonEnable = false
         Timer().schedule(timerTask {
             isButtonEnable = true
         }, ((photosCount * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
     }
+    //tylko opóźnienie pierwszego zdjęcia
+    fun disableButtonDelay() {
+        isButtonEnable = false
+        Timer().schedule(timerTask {
+            isButtonEnable = true
+        }, (timeFirstPhoto * 1000).toLong())
+    }
+
 }
