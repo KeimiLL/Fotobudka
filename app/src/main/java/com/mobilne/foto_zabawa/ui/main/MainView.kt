@@ -10,7 +10,10 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mobilne.foto_zabawa.R
@@ -35,9 +38,10 @@ fun MainView(mainViewModel: MainViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .background(Color(0xffcccccc))
+                    .background(Color.LightGray)
                     .padding(10.dp),
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.SpaceBetween,
+
             ) {
                 NavigationButton(R.drawable.settings, "Settings", mainViewModel)
                 NavigationButton(R.drawable.camera, "Camera", mainViewModel)
@@ -76,14 +80,22 @@ fun NavigationButton(
             shape = CircleShape,
             border = BorderStroke(5.dp, Color(0xff004f88)),
             contentPadding = PaddingValues(1.dp),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue),
+//            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue),
+            colors = ButtonDefaults.outlinedButtonColors(backgroundColor = Color.White),
             enabled = mainViewModel.isButtonEnable
         ) {
             // Adding an Icon "Add" inside the Button
+            val color: Color = if (!mainViewModel.isButtonEnable)
+                Color.LightGray
+            else
+                Color(0xff004f88)
             Image(
                 painterResource(id = icon),
                 contentDescription = name,
-                Modifier.size(30.dp),
+                Modifier
+                    .size(30.dp)
+                    .clip(CircleShape),
+                colorFilter = ColorFilter.tint(color)
             )
         }
 
