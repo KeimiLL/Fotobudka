@@ -35,7 +35,7 @@ exports.addPhoto = (uid, file, data) => new Promise((resolve, reject) => {
 
   fs.readdir(dir, (err, files) => {
     if (err) return reject(err)
-    const id = files.filter(file => file.endsWith('.jpg')).length
+    const id = files.filter(file => !file.endsWith('.json')).length
 
     fs.copyFile(file.path, path.join(dir, `${id}.jpg`), err => {
       if (err) return reject(err)
