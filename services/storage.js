@@ -1,5 +1,6 @@
 const path = require('path'),
-  fs = require('fs')
+  fs = require('fs'),
+  FileType = require('file-type')
 
 const filesDir = path.join(__dirname, '..', process.env.FILES_DIR)
 
@@ -27,17 +28,23 @@ exports.writeSettings = (uid, data) => new Promise((resolve, reject) => {
   })
 })
 
-exports.addPhoto = (uid, file, data) => new Promise((resolve, reject) => {
+exports.addPhoto = (uid, file, data) => new Promise(async (resolve, reject) => {
   const dir = photosDir(uid)
+
+  const type = await FileType.fromFile(file.path).catch(reject)
+  if (!type) return
+
+  if (!type.mime.startsWith('image/'))
+    return reject(new Error('File is not an image'))
 
   if (!fs.existsSync(dir))
     fs.mkdirSync(dir, { recursive: true })
 
   fs.readdir(dir, (err, files) => {
     if (err) return reject(err)
-    const id = files.filter(file => file.endsWith('.jpg')).length
+    const id = files.filter(file => !file.endsWith('.json')).length
 
-    fs.copyFile(file.path, path.join(dir, `${id}.jpg`), err => {
+    fs.copyFile(file.path, path.join(dir, `${id}.${type.ext}`), err => {
       if (err) return reject(err)
       fs.rmSync(file.path)
 
