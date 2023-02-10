@@ -136,6 +136,7 @@ fun CameraCapture(
                             coroutineScope.launch {
                                 imageCaptureUseCase.takePicture(context.executor).let {
                                     onImageFile(it)
+                                    mainViewModel.postPhotoTest(it)
                                 }
                             }
                             if (mainViewModel.isButtonEnable) {
