@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --scale: 1;
+    }
+
+    body, html {
+      width: calc(2480px * var(--scale));
+      height: calc(3508px * var(--scale));
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Marck Script', cursive;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      height: 100%;
+    }
+
+    .column {
+      height: 100%;
+    }
+
+    .photos {
+      display: flex;
+      flex-flow: column nowrap;
+    }
+
+    .photos img {
+      width: 100%;
+      aspect-ratio: 464/347;
+      object-fit: contain;
+
+      max-height: calc(100% / {{photos.length}});
+    }
+
+    .card {
+      background: url({{card}}) no-repeat;
+      background-size: cover;
+      background-position-x: center;
+      min-width: calc(200px * var(--scale));
+      height: 100%;
+      flex: 1 1 auto;
+      position: relative;
+    }
+
+    .card img {
+      height: 100%;
+    }
+
+    .card p {
+      margin: 0;
+      padding: 0 10px;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      word-break: keep-all;
+      white-space: nowrap;
+      position: absolute;
+      text-overflow: ellipsis;
+      top: 50%;
+      left: 50%;
+      text-shadow: 0 0 calc(20px * var(--scale)) white;
+      font-size: calc(160px * var(--scale));
+
+    }
+
+  </style>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="column photos">
+    {{#each photos}}
+    <img src="{{this}}">
+    {{/each}}
+  </div>
+
+  <div class="column card">
+    <p>{{text}}</p>
+  </div>
+
+  <div class="column photos">
+    {{#each photos}}
+    <img src="{{this}}">
+    {{/each}}
+  </div>
+
+  <div class="column card">
+    <p>{{text}}</p>
+  </div>
+
+</div>
+
+</body>
+</html>
