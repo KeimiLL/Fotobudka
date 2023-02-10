@@ -38,8 +38,8 @@ class MainViewModel @Inject constructor(
             image,
             cardId,
             cardText
-        )
-        if (response.data?.string() === "OK") apiResponseCount++
+        ).data?.string()
+        if (response == "OK") apiResponseCount++
     }
 
     //camera
