@@ -144,8 +144,9 @@ class MainViewModel @Inject constructor(
         isButtonEnable = false
         Timer().schedule(timerTask {
             isButtonEnable = true
-        }, (((photosCount-1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
+        }, (((photosCount - 1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
     }
+
     //tylko opóźnienie pierwszego zdjęcia
     fun disableButtonDelay() {
         isButtonEnable = false
@@ -155,15 +156,17 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun alertSound(context: Context){
+    fun alertSound(context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.alert)
         mp.start()
     }
-    fun photoSound(context: Context){
+
+    fun photoSound(context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.casual)
         mp.start()
     }
-    fun endSound(context: Context){
+
+    fun endSound(context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.end)
         mp.start()
     }

@@ -26,9 +26,7 @@ import com.mobilne.foto_zabawa.utils.Permission
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.*
 import kotlin.concurrent.fixedRateTimer
-import kotlin.concurrent.timerTask
 
 @ExperimentalPermissionsApi
 @ExperimentalCoroutinesApi

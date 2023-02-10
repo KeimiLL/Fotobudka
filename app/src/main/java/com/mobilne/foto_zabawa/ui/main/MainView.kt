@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mobilne.foto_zabawa.R
@@ -42,7 +41,7 @@ fun MainView(mainViewModel: MainViewModel) {
                     .padding(10.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
 
-            ) {
+                ) {
                 NavigationButton(R.drawable.settings, "Settings", mainViewModel)
                 NavigationButton(R.drawable.camera, "Camera", mainViewModel)
                 NavigationButton(R.drawable.gallery, "Gallery", mainViewModel)
