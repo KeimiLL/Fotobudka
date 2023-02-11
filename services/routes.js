@@ -9,6 +9,19 @@ const auth = require('../middleware/auth'),
   pb = require('../services/photo-booth')
 
 module.exports = app => {
+
+  app.get('/pdf/:uid', validUid, (req, res, next) => {
+    const { uid } = req.params
+
+    storage.getResult(uid).then(pdf => {
+      sendPDF(pdf.file, `${uid}.pdf`, res)
+
+    }).catch(err => {
+      res.sendStatus(err.code === 'ENOENT' ? 404 : 500)
+      console.error('Error reading pdf:', err)
+    })
+  })
+
   app.use(auth)
 
   app.get('/', (req, res, next) => {
@@ -100,19 +113,6 @@ module.exports = app => {
         if (err.code === 'ENOENT') return
         console.error('Error getting result:', err)
       })
-  })
-
-  app.get('/pdf/:uid', validUid, (req, res, next) => {
-    const { uid } = req.params
-
-    storage.getResult(uid).then(pdf => {
-      console.log(pdf)
-      sendPDF(pdf.file, `${uid}.pdf`, res)
-
-    }).catch(err => {
-      res.sendStatus(err.code === 'ENOENT' ? 404 : 500)
-      console.error('Error reading pdf:', err)
-    })
   })
 }
 
