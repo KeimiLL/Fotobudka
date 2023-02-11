@@ -4,7 +4,8 @@ const auth = require('../middleware/auth'),
   path = require('path'),
   upload = multer({ dest: path.join(os.tmpdir(), 'fotobudka') }),
   storage = require('../services/storage'),
-  validUid = require('../middleware/valid-uid')
+  validUid = require('../middleware/valid-uid'),
+  pb = require('../services/photo-booth')
 
 module.exports = app => {
   app.use(auth)
@@ -63,5 +64,26 @@ module.exports = app => {
       if (err.code === 'ENOENT') return
       console.error('Error getting status:', err)
     })
+  })
+
+  app.get('/result/:uid', validUid, (req, res, next) => {
+    const { uid } = req.params
+
+    Promise.all([storage.readSettings(uid), storage.listPhotos(uid)])
+      .then(([settings, photos]) => {
+        const resultFile = storage.resultFile(uid)
+        const photosDir = storage.photosDir(uid)
+        photos = photos.map(photo => path.join(photosDir, photo))
+
+        return pb.generate(photos, settings.cardId || 0, settings.cardText || '', resultFile)
+      })
+      .then(() =>
+        res.json({ 'pdf': `${req.protocol}://${req.get('host')}/pdf/${uid}` })
+      )
+      .catch(err => {
+        res.sendStatus(err.code === 'ENOENT' ? 404 : 500)
+        if (err.code === 'ENOENT') return
+        console.error('Error getting result:', err)
+      })
   })
 }

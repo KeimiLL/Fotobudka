@@ -81,3 +81,11 @@ function sessionDir(uid) {
 function photosDir(uid) {
   return sessionDir(uid) + '/photos'
 }
+
+function resultFile(uid) {
+  return path.join(sessionDir(uid), 'result.pdf')
+}
+
+exports.sessionDir = sessionDir
+exports.photosDir = photosDir
+exports.resultFile = resultFile
