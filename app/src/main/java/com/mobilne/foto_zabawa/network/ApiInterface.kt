@@ -6,14 +6,16 @@ import okhttp3.ResponseBody
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import javax.inject.Singleton
 
 @Singleton
 interface ApiInterface {
 
     @Multipart
-    @POST("photo/test")
+    @POST("photo/{id}")
     suspend fun postPhotoTest(
+        @Path("id") id: String,
         @Part imagePart: MultipartBody.Part,
         @Part("cardId") cardId: RequestBody,
         @Part("cardText") cardText: RequestBody,

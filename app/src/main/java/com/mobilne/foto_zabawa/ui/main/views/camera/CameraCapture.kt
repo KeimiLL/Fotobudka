@@ -93,6 +93,7 @@ fun CameraCapture(
                         .align(Alignment.BottomCenter),
                     onClick = {
                         mainViewModel.disableButton()
+                        mainViewModel.setNewSeriesUUID()
 
                         // Interval
                         var counter = 0

@@ -36,6 +36,7 @@ class MainViewModel @Inject constructor(
         val cardText: RequestBody =
             currentCardText.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val response = testRepository.postPhotoTest(
+            seriesUUID,
             image,
             cardId,
             cardText
@@ -66,6 +67,16 @@ class MainViewModel @Inject constructor(
 
     // should be reset on every camera button click
     var apiResponseCount by mutableStateOf(0)
+
+    var seriesUUID = ""
+
+    fun getUUID(): String {
+        return UUID.randomUUID().toString()
+    }
+
+    fun setNewSeriesUUID() {
+        seriesUUID = getUUID()
+    }
 
     fun resetApiResponseCount() {
         apiResponseCount = 0
@@ -142,10 +153,6 @@ class MainViewModel @Inject constructor(
             "English"
         else
             "Polski"
-//        return if (!language)
-//            apiResponseCount.toString()
-//        else
-//            apiResponseCount.toString()
     }
 
     //liczy wszytskei działania
