@@ -2,6 +2,7 @@ const auth = require('../middleware/auth'),
   multer = require('multer'),
   os = require('os'),
   path = require('path'),
+  fs = require('fs'),
   upload = multer({ dest: path.join(os.tmpdir(), 'fotobudka') }),
   storage = require('../services/storage'),
   validUid = require('../middleware/valid-uid'),
@@ -44,12 +45,26 @@ module.exports = app => {
   })
 
   app.get('/status/:uid', validUid, (req, res, next) => {
-    storage.readSettings(req.params.uid).then(settings => {
+    const { uid } = req.params
+    storage.readSettings(uid).then(settings => {
       const data = { settings }
 
-      storage.listPhotos(req.params.uid).then(photos => {
+      storage.listPhotos(uid).then(photos => {
         data.photos = photos
-        res.json(data)
+
+        storage.getResult(uid).then(pdf => {
+          if (pdf)
+            data.pdf = pdf.name
+
+          res.json(data)
+
+        }).catch(err => {
+          if (err.code === 'ENOENT')
+            return res.json(data)
+
+          res.sendStatus(500)
+          console.error('Error getting pdf:', err)
+        })
 
       }).catch(err => {
         if (err.code === 'ENOENT')
@@ -86,4 +101,33 @@ module.exports = app => {
         console.error('Error getting result:', err)
       })
   })
+
+  app.get('/pdf/:uid', validUid, (req, res, next) => {
+    const { uid } = req.params
+
+    storage.getResult(uid).then(pdf => {
+      console.log(pdf)
+      sendPDF(pdf.file, `${uid}.pdf`, res)
+
+    }).catch(err => {
+      res.sendStatus(err.code === 'ENOENT' ? 404 : 500)
+      console.error('Error reading pdf:', err)
+    })
+  })
+}
+
+function sendPDF(path, pdfname, res, download) {
+  const file = fs.createReadStream(path)
+  const name = encodeRFC5987ValueChars(pdfname)
+  res.setHeader('Content-Disposition', (download ? 'attachment' : 'inline') + "; filename*=UTF-8''" + name)
+  res.setHeader('Content-Type', 'application/pdf')
+  file.pipe(res)
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#examples
+function encodeRFC5987ValueChars(str) {
+  return encodeURIComponent(str)
+    .replace(/['()]/g, escape)
+    .replace(/\*/g, '%2A')
+    .replace(/%(?:7C|60|5E)/g, unescape)
 }

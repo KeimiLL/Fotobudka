@@ -68,6 +68,15 @@ exports.listPhotos = uid => new Promise((resolve, reject) => {
   })
 })
 
+exports.getResult = uid => new Promise((resolve, reject) => {
+  const file = resultFile(uid)
+
+  fs.access(file, fs.F_OK, err => {
+    if (err) return reject(err)
+    resolve({ file, name: path.basename(file) })
+  })
+})
+
 const excludedExt = ['.json', '.pdf', '.html']
 
 function filterPhotos(files) {
