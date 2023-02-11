@@ -47,7 +47,7 @@ module.exports = app => {
       const data = { settings }
 
       storage.listPhotos(req.params.uid).then(photos => {
-        data.photos = photos.filter(f => !f.endsWith('.json'))
+        data.photos = photos
         res.json(data)
 
       }).catch(err => {

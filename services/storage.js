@@ -40,9 +40,9 @@ exports.addPhoto = (uid, file, data) => new Promise(async (resolve, reject) => {
   if (!fs.existsSync(dir))
     fs.mkdirSync(dir, { recursive: true })
 
-  fs.readdir(dir, (err, files) => {
-    if (err) return reject(err)
-    const id = files.filter(file => !file.endsWith('.json')).length
+  exports.listPhotos(uid).then(photos => {
+
+    const id = photos.length
 
     fs.copyFile(file.path, path.join(dir, `${id}.${type.ext}`), err => {
       if (err) return reject(err)
@@ -55,7 +55,8 @@ exports.addPhoto = (uid, file, data) => new Promise(async (resolve, reject) => {
         resolve()
       })
     })
-  })
+
+  }).catch(reject)
 })
 
 exports.listPhotos = uid => new Promise((resolve, reject) => {
@@ -63,9 +64,15 @@ exports.listPhotos = uid => new Promise((resolve, reject) => {
 
   fs.readdir(dir, (err, files) => {
     if (err) return reject(err)
-    resolve(files)
+    resolve(filterPhotos(files))
   })
 })
+
+const excludedExt = ['.json', '.pdf', '.html']
+
+function filterPhotos(files) {
+  return files.filter(file => !excludedExt.some(ext => file.endsWith(ext)))
+}
 
 function sessionDir(uid) {
   return path.join(filesDir, uid)
