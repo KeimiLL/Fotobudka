@@ -2,6 +2,7 @@ package com.mobilne.foto_zabawa.ui.main
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -43,6 +44,8 @@ class MainViewModel @Inject constructor(
         ).data?.string()
         if (response == "OK") apiResponseCount++
         if (apiResponseCount == photosCount) {
+            val url = testRepository.getPDFUri(seriesUUID).data?.pdf
+            Log.d("pdfurl", url.toString())
             delay(1000L)
             resetApiResponseCount()
         }
