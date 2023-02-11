@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.mobilne.foto_zabawa.R
 import com.mobilne.foto_zabawa.repository.TestRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -40,6 +41,10 @@ class MainViewModel @Inject constructor(
             cardText
         ).data?.string()
         if (response == "OK") apiResponseCount++
+        if (apiResponseCount == photosCount) {
+            delay(1000L)
+            resetApiResponseCount()
+        }
     }
 
     //camera
@@ -64,6 +69,10 @@ class MainViewModel @Inject constructor(
 
     fun resetApiResponseCount() {
         apiResponseCount = 0
+    }
+
+    fun getApiResponseCountDisplayText(): String {
+        return if (isButtonEnable && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
     }
 
     fun increaseSettingsValue(index: Int) {

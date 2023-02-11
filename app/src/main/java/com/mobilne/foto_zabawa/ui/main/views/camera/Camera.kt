@@ -51,9 +51,6 @@ fun MainContent(modifier: Modifier = Modifier, mainViewModel: MainViewModel) {
         modifier = modifier,
         onImageFile = { file ->
             imageUri = file.toUri()
-            CoroutineScope(Dispatchers.IO).launch {
-                mainViewModel.postPhotoTest(file)
-            }
         },
         mainViewModel = mainViewModel
     )
