@@ -93,16 +93,8 @@ fun CameraCapture(
                         .align(Alignment.BottomCenter),
                     onClick = {
                         mainViewModel.disableButton()
-                        //Delay
-//                        Timer().schedule(timerTask {
-//                            mainViewModel.photoSound(context= context)
-//                            coroutineScope.launch {
-//                                imageCaptureUseCase.takePicture(context.executor).let {
-//                                    onImageFile(it)
-//                                }
-//                            }
-//                        }, ((mainViewModel.getValue(0)) * 1000).toLong())
-//                        Interval
+
+                        // Interval
                         var counter = 0
                         fixedRateTimer(
                             name = "alert-timer",
@@ -147,7 +139,7 @@ fun CameraCapture(
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(bottomStartPercent = 20))
-                        .align(Alignment.TopEnd)
+                        .align(Alignment.TopStart)
                         .background(background)
                         .padding(8.dp)
                 ) {
@@ -167,7 +159,7 @@ fun CameraCapture(
                         lifecycleOwner, cameraSelector, previewUseCase, imageCaptureUseCase
                     )
                 } catch (ex: Exception) {
-                    Log.e("CameraCapture", "Failed to bind camera use cases", ex)
+                    Log.e("CameraCapture", "Binding of camera use cases failed", ex)
                 }
             }
         }

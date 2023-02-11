@@ -178,19 +178,8 @@ fun SettingsButton(
                 text = name,
                 color = Color(0xff004f88),
                 fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
+                fontSize = 30.sp
             )
         }
-
     }
 }
-
-
-//@Preview(
-//    showBackground = true,
-//    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
-//)
-//@Composable
-//fun DefaultPreview() {
-//    SettingsView(MainViewModel())
-//}

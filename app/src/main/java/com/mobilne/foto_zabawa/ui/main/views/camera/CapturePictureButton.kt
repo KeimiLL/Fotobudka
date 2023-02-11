@@ -25,12 +25,12 @@ fun CapturePictureButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val color = if (isPressed) Color.Blue else Color.Black
-    val contentPadding = PaddingValues(if (isPressed) 8.dp else 12.dp)
+    val color = if (isPressed) Color.Red else Color.White
+    val contentPadding = PaddingValues(if (isPressed) 15.dp else 10.dp)
     OutlinedButton(
         modifier = modifier,
         shape = CircleShape,
-        border = BorderStroke(2.dp, Color.Black),
+        border = BorderStroke(0.dp, Color.White),
         contentPadding = contentPadding,
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black),
         onClick = { },
@@ -46,25 +46,6 @@ fun CapturePictureButton(
             interactionSource = interactionSource,
             onClick = onClick,
             enabled = mainViewModel.isButtonEnable
-        ) {
-            // No content
-        }
+        ) { }
     }
 }
-
-//@Preview
-//@Composable
-//fun PreviewCapturePictureButton() {
-//    Scaffold(
-//        modifier = Modifier
-//            .size(125.dp)
-//            .wrapContentSize()
-//    ) { innerPadding ->
-//        CapturePictureButton(
-//            modifier = Modifier
-//                .padding(innerPadding)
-//                .size(100.dp)
-//
-//        )
-//    }
-//}

@@ -55,6 +55,5 @@ fun PhotoCard(
                     ),
             )
         }
-
     }
 }
