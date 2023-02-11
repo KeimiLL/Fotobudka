@@ -2,7 +2,6 @@ package com.mobilne.foto_zabawa.ui.main
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -48,6 +47,7 @@ class MainViewModel @Inject constructor(
             pdfUrl = testRepository.getPDFUrl(seriesUUID).data!!.pdf
             delay(1000L)
             resetApiResponseCount()
+            delay(2000L)
             resetPDFUrl()
         }
     }
@@ -91,6 +91,10 @@ class MainViewModel @Inject constructor(
 
     fun getApiResponseCountDisplayText(): String {
         return if (isButtonEnable && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
+    }
+
+    fun getPDFUrlDisplayText(): String {
+        return if (pdfUrl.isEmpty()) "" else if (language) "Pobierz PDF" else "Download PDF"
     }
 
     fun increaseSettingsValue(index: Int) {

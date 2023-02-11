@@ -12,6 +12,7 @@ import androidx.camera.core.UseCase
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -21,8 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -139,18 +144,47 @@ fun CameraCapture(
                     },
                     mainViewModel = mainViewModel
                 )
-                val background = if (mainViewModel.isButtonEnable && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
+                val countBackground = if (mainViewModel.isButtonEnable && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(bottomStartPercent = 20))
+                        .clip(RoundedCornerShape(bottomEndPercent = 20))
                         .align(Alignment.TopStart)
-                        .background(background)
+                        .background(countBackground)
                         .padding(8.dp)
                 ) {
                     Text(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         text = mainViewModel.getApiResponseCountDisplayText()
+                    )
+                }
+                val urlBackground = if (mainViewModel.pdfUrl.isEmpty()) Color.Transparent else Color.LightGray
+                val uriHandler = LocalUriHandler.current
+                val uriText = mainViewModel.getPDFUrlDisplayText()
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(topEndPercent = 20))
+                        .align(Alignment.BottomStart)
+                        .background(urlBackground)
+                        .padding(8.dp)
+                ) {
+                    ClickableText(
+                        buildAnnotatedString {
+                            append(text = uriText)
+                            addStyle(
+                                style = SpanStyle(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color.Blue,
+                                    textDecoration = TextDecoration.Underline,
+                                ),
+                                0,
+                                uriText.length
+                            )
+                        },
+                        onClick = {
+                            uriHandler.openUri(mainViewModel.pdfUrl)
+                        }
                     )
                 }
             }
