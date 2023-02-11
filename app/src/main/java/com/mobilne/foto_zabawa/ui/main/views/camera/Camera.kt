@@ -14,10 +14,7 @@ import androidx.core.net.toUri
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mobilne.foto_zabawa.ui.main.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalPermissionsApi::class, ExperimentalCoilApi::class,

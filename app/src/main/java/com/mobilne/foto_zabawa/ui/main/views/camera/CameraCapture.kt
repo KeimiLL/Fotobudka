@@ -144,7 +144,8 @@ fun CameraCapture(
                     },
                     mainViewModel = mainViewModel
                 )
-                val countBackground = if (mainViewModel.isButtonEnable && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
+                val countBackground =
+                    if (mainViewModel.isButtonEnable && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(bottomEndPercent = 20))
@@ -158,7 +159,8 @@ fun CameraCapture(
                         text = mainViewModel.getApiResponseCountDisplayText()
                     )
                 }
-                val urlBackground = if (mainViewModel.pdfUrl.isEmpty()) Color.Transparent else Color.LightGray
+                val urlBackground =
+                    if (mainViewModel.pdfUrl.isEmpty()) Color.Transparent else Color.LightGray
                 val uriHandler = LocalUriHandler.current
                 val uriText = mainViewModel.getPDFUrlDisplayText()
                 Box(
