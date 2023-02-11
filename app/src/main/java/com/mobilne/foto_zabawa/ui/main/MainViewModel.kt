@@ -45,15 +45,15 @@ class MainViewModel @Inject constructor(
         if (response == "OK") apiResponseCount++
         if (apiResponseCount == photosCount) {
             pdfUrl = testRepository.getPDFUrl(seriesUUID).data!!.pdf
-            delay(1000L)
             resetApiResponseCount()
-            delay(2000L)
+            delay(10000L)
             resetPDFUrl()
         }
     }
 
     //camera
     var isButtonEnable by mutableStateOf(true)
+    var isCameraDone by mutableStateOf(true)
 
     //navigation
     var currentView by mutableStateOf("Settings")
@@ -90,7 +90,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getApiResponseCountDisplayText(): String {
-        return if (isButtonEnable && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
+        return if (isCameraDone && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
     }
 
     fun getPDFUrlDisplayText(): String {
@@ -168,10 +168,14 @@ class MainViewModel @Inject constructor(
 
     //liczy wszytskei działania
     fun disableButton() {
+        isCameraDone = false
         isButtonEnable = false
         Timer().schedule(timerTask {
-            isButtonEnable = true
+            isCameraDone = true
         }, (((photosCount - 1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
+        Timer().schedule(timerTask {
+            isButtonEnable = true
+        }, 10000L)
     }
 
     //tylko opóźnienie pierwszego zdjęcia

@@ -118,7 +118,7 @@ fun CameraCapture(
                             ) {
                                 mainViewModel.alertSound(context = context)
                             }
-                            if (mainViewModel.isButtonEnable) {
+                            if (mainViewModel.isCameraDone) {
                                 this.cancel()
                             }
                             counter++
@@ -136,7 +136,7 @@ fun CameraCapture(
                                     mainViewModel.postPhotoTest(it)
                                 }
                             }
-                            if (mainViewModel.isButtonEnable) {
+                            if (mainViewModel.isCameraDone) {
                                 mainViewModel.endSound(context = context)
                                 this.cancel()
                             }
@@ -145,7 +145,7 @@ fun CameraCapture(
                     mainViewModel = mainViewModel
                 )
                 val countBackground =
-                    if (mainViewModel.isButtonEnable && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
+                    if (mainViewModel.isCameraDone && mainViewModel.apiResponseCount == 0) Color.Transparent else Color.LightGray
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(bottomEndPercent = 20))
