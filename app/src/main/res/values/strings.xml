@@ -25,7 +25,7 @@
     <string name="card3e">Holiday </string>
     <string name="card4e">Winter </string>
     <!-- Camera -->
-    <string name="permission">You said you wanted a picture, so I am going to have to ask for permission.</string>
+    <string name="permission">The app requires this permission to function correctly. Could you provide authorization, please?</string>
     <string name="nopermission">O noes! No Camera!</string>
     <string name="settings">Open Settings</string>
 </resources>
