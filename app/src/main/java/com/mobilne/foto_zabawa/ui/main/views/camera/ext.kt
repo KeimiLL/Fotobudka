@@ -33,7 +33,7 @@ suspend fun ImageCapture.takePicture(executor: Executor): File {
         kotlin.runCatching {
             File.createTempFile("image", "jpg")
         }.getOrElse { ex ->
-            Log.e("TakePicture", "Failed to create temporary file", ex)
+            Log.e("TakePicture", "Temporary file creation failed", ex)
             File("/dev/null")
         }
     }
@@ -48,7 +48,7 @@ suspend fun ImageCapture.takePicture(executor: Executor): File {
                 }
 
                 override fun onError(ex: ImageCaptureException) {
-                    Log.e("TakePicture", "Image capture failed", ex)
+                    Log.e("TakePicture", "Picture capturing failed", ex)
                     continuation.resumeWithException(ex)
                 }
             }

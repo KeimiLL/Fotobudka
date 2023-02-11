@@ -31,25 +31,13 @@ fun MainView(mainViewModel: MainViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .background(Color.LightGray)
-                    .padding(10.dp),
-                verticalArrangement = Arrangement.SpaceBetween,
-
-                ) {
-                NavigationButton(R.drawable.settings, "Settings", mainViewModel)
-                NavigationButton(R.drawable.camera, "Camera", mainViewModel)
-                NavigationButton(R.drawable.gallery, "Gallery", mainViewModel)
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
+                    .fillMaxWidth(0.89f),
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
@@ -60,6 +48,20 @@ fun MainView(mainViewModel: MainViewModel) {
                 else if (mainViewModel.currentView.contains("Camera"))
                     CameraView(mainViewModel)
             }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.SpaceBetween,
+
+                ) {
+                NavigationButton(R.drawable.settings, "Settings", mainViewModel)
+                NavigationButton(R.drawable.camera, "Camera", mainViewModel)
+                NavigationButton(R.drawable.gallery, "Gallery", mainViewModel)
+            }
+
         }
     }
 }
@@ -79,7 +81,6 @@ fun NavigationButton(
             shape = CircleShape,
             border = BorderStroke(5.dp, Color(0xff004f88)),
             contentPadding = PaddingValues(1.dp),
-//            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue),
             colors = ButtonDefaults.outlinedButtonColors(backgroundColor = Color.White),
             enabled = mainViewModel.isButtonEnable
         ) {
@@ -92,21 +93,10 @@ fun NavigationButton(
                 painterResource(id = icon),
                 contentDescription = name,
                 Modifier
-                    .size(30.dp)
+                    .size(35.dp)
                     .clip(CircleShape),
                 colorFilter = ColorFilter.tint(color)
             )
         }
-
     }
 }
-
-
-//@Preview(
-//    showBackground = true,
-//    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
-//)
-//@Composable
-//fun DefaultPreview() {
-//    MainView(MainViewModel())
-//}

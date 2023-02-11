@@ -13,7 +13,7 @@ import com.mobilne.foto_zabawa.ui.main.MainViewModel
 @Composable
 fun Permission(
     permission: String = android.Manifest.permission.CAMERA,
-    rationale: String = "This permission is important for this app. Please grant the permission.",
+    rationale: String = "Granting this permission is crucial for the proper functioning of the app. Could you please provide authorization?",
     permissionNotAvailableContent: @Composable () -> Unit = { },
     mainViewModel: MainViewModel,
     content: @Composable () -> Unit = { }
