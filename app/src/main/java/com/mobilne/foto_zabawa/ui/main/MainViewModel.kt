@@ -29,25 +29,26 @@ class MainViewModel @Inject constructor(
     private val testRepository: TestRepository,
 ) : ViewModel() {
 
+    suspend fun postSettings() = viewModelScope.launch {
+        testRepository.postSettings(seriesUUID, currentCardId, currentCardText)
+    }
+
     suspend fun postPhotoTest(file: File) = viewModelScope.launch {
         val reqFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val image = MultipartBody.Part.createFormData("file", file.name, reqFile)
         val cardId: RequestBody =
             currentCardId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val cardText: RequestBody =
-            currentCardText.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val response = testRepository.postPhotoTest(
             seriesUUID,
             image,
-            cardId,
-            cardText
+            cardId
         ).data?.string()
         if (response == "OK") apiResponseCount++
         if (apiResponseCount == photosCount) {
-            val url = testRepository.getPDFUri(seriesUUID).data?.pdf
-            Log.d("pdfurl", url.toString())
+            pdfUrl = testRepository.getPDFUrl(seriesUUID).data!!.pdf
             delay(1000L)
             resetApiResponseCount()
+            resetPDFUrl()
         }
     }
 
@@ -68,12 +69,11 @@ class MainViewModel @Inject constructor(
     private var photosCount by mutableStateOf(6)
     var language by mutableStateOf(false)
 
-    // should be reset on every camera button click
-    var apiResponseCount by mutableStateOf(0)
-
     var seriesUUID = ""
+    var apiResponseCount by mutableStateOf(0)
+    var pdfUrl by mutableStateOf("")
 
-    fun getUUID(): String {
+    private fun getUUID(): String {
         return UUID.randomUUID().toString()
     }
 
@@ -83,6 +83,10 @@ class MainViewModel @Inject constructor(
 
     fun resetApiResponseCount() {
         apiResponseCount = 0
+    }
+
+    fun resetPDFUrl() {
+        pdfUrl = ""
     }
 
     fun getApiResponseCountDisplayText(): String {

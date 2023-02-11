@@ -94,6 +94,9 @@ fun CameraCapture(
                     onClick = {
                         mainViewModel.disableButton()
                         mainViewModel.setNewSeriesUUID()
+                        coroutineScope.launch {
+                            mainViewModel.postSettings()
+                        }
 
                         // Interval
                         var counter = 0

@@ -9,13 +9,18 @@ import javax.inject.Singleton
 @Singleton
 interface ApiInterface {
 
+    @POST("settings/{id}")
+    suspend fun postSettings(
+        @Path("id") id: String,
+        @Body requestBody: SettingsBody,
+    ): ResponseBody
+
     @Multipart
     @POST("photo/{id}")
     suspend fun postPhotoTest(
         @Path("id") id: String,
         @Part imagePart: MultipartBody.Part,
         @Part("cardId") cardId: RequestBody,
-        @Part("cardText") cardText: RequestBody,
     ): ResponseBody
 
     @GET("result/{id}")
