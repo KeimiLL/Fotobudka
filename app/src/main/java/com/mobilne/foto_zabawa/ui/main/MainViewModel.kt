@@ -28,27 +28,32 @@ class MainViewModel @Inject constructor(
     private val testRepository: TestRepository,
 ) : ViewModel() {
 
+    suspend fun postSettings() = viewModelScope.launch {
+        testRepository.postSettings(seriesUUID, currentCardId, currentCardText)
+    }
+
     suspend fun postPhotoTest(file: File) = viewModelScope.launch {
         val reqFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val image = MultipartBody.Part.createFormData("file", file.name, reqFile)
         val cardId: RequestBody =
             currentCardId.toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        val cardText: RequestBody =
-            currentCardText.toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val response = testRepository.postPhotoTest(
+            seriesUUID,
             image,
-            cardId,
-            cardText
+            cardId
         ).data?.string()
         if (response == "OK") apiResponseCount++
         if (apiResponseCount == photosCount) {
-            delay(1000L)
+            pdfUrl = testRepository.getPDFUrl(seriesUUID).data!!.pdf
             resetApiResponseCount()
+            delay(10000L)
+            resetPDFUrl()
         }
     }
 
     //camera
     var isButtonEnable by mutableStateOf(true)
+    var isCameraDone by mutableStateOf(true)
 
     //navigation
     var currentView by mutableStateOf("Settings")
@@ -64,15 +69,32 @@ class MainViewModel @Inject constructor(
     private var photosCount by mutableStateOf(6)
     var language by mutableStateOf(false)
 
-    // should be reset on every camera button click
+    var seriesUUID = ""
     var apiResponseCount by mutableStateOf(0)
+    var pdfUrl by mutableStateOf("")
+
+    private fun getUUID(): String {
+        return UUID.randomUUID().toString()
+    }
+
+    fun setNewSeriesUUID() {
+        seriesUUID = getUUID()
+    }
 
     fun resetApiResponseCount() {
         apiResponseCount = 0
     }
 
+    fun resetPDFUrl() {
+        pdfUrl = ""
+    }
+
     fun getApiResponseCountDisplayText(): String {
-        return if (isButtonEnable && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
+        return if (isCameraDone && apiResponseCount == 0) "" else "${if (language) "Wysyłanie zdjęć" else "Sending photos"}:\n$apiResponseCount/$photosCount"
+    }
+
+    fun getPDFUrlDisplayText(): String {
+        return if (pdfUrl.isEmpty()) "" else if (language) "Pobierz PDF" else "Download PDF"
     }
 
     fun increaseSettingsValue(index: Int) {
@@ -142,18 +164,18 @@ class MainViewModel @Inject constructor(
             "English"
         else
             "Polski"
-//        return if (!language)
-//            apiResponseCount.toString()
-//        else
-//            apiResponseCount.toString()
     }
 
     //liczy wszytskei działania
     fun disableButton() {
+        isCameraDone = false
         isButtonEnable = false
         Timer().schedule(timerTask {
-            isButtonEnable = true
+            isCameraDone = true
         }, (((photosCount - 1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
+        Timer().schedule(timerTask {
+            isButtonEnable = true
+        }, 10000L)
     }
 
     //tylko opóźnienie pierwszego zdjęcia
