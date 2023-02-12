@@ -10,8 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.mobilne.foto_zabawa.R
 import com.mobilne.foto_zabawa.repository.TestRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -48,7 +46,9 @@ class MainViewModel @Inject constructor(
         if (apiResponseCount == photosCount) {
             pdfUrl = testRepository.getPDFUrl(seriesUUID).data!!.pdf
             resetApiResponseCount()
-            delay(10000L)
+            delay(5000L)
+            isButtonEnable = true
+            delay(5000L)
             resetPDFUrl()
         }
     }
@@ -83,11 +83,11 @@ class MainViewModel @Inject constructor(
         seriesUUID = getUUID()
     }
 
-    fun resetApiResponseCount() {
+    private fun resetApiResponseCount() {
         apiResponseCount = 0
     }
 
-    fun resetPDFUrl() {
+    private fun resetPDFUrl() {
         pdfUrl = ""
     }
 
@@ -168,27 +168,13 @@ class MainViewModel @Inject constructor(
             "Polski"
     }
 
-    //liczy wszytskei działania
     fun disableButton() {
         isCameraDone = false
         isButtonEnable = false
         Timer().schedule(timerTask {
             isCameraDone = true
-            CoroutineScope(Dispatchers.IO).launch {
-                delay(10000L)
-                isButtonEnable = true
-            }
         }, (((photosCount - 1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
     }
-
-    //tylko opóźnienie pierwszego zdjęcia
-    fun disableButtonDelay() {
-        isButtonEnable = false
-        Timer().schedule(timerTask {
-            isButtonEnable = true
-        }, (timeFirstPhoto * 1000).toLong())
-    }
-
 
     fun alertSound(context: Context) {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.alert)
