@@ -1,11 +1,13 @@
 package com.mobilne.foto_zabawa.ui.main.views.gallery
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,10 @@ fun PhotoCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .width(140.dp)
+                .border(
+                    2.dp,
+                    if (mainViewModel.currentCardText == description) Color.Blue else Color.White
+                )
         ) {
             Text(
                 text = description,
