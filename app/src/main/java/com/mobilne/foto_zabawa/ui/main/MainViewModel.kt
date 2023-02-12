@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.mobilne.foto_zabawa.R
 import com.mobilne.foto_zabawa.repository.TestRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -172,10 +174,11 @@ class MainViewModel @Inject constructor(
         isButtonEnable = false
         Timer().schedule(timerTask {
             isCameraDone = true
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(10000L)
+                isButtonEnable = true
+            }
         }, (((photosCount - 1) * timeBetweenPhotos + timeFirstPhoto) * 1000).toLong())
-        Timer().schedule(timerTask {
-            isButtonEnable = true
-        }, 10000L)
     }
 
     //tylko opóźnienie pierwszego zdjęcia
