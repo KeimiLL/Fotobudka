@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'fotobudka-api',
       script: 'npm',
-      args: 'run production',
+      args: 'start',
       log_date_format: 'YYYY-MM-DD HH:mm:ss.SSS',
       watch: false,
       ignore_watch: ['node_modules', 'files'],
