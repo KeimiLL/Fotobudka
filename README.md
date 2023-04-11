@@ -42,7 +42,7 @@ The server application operates within a local network and is available as a RES
 
 - Ready-to-print PDF file.
 <p align="center">
-<img src="/images/pdf.jpg" alt="pdf" width="70%"/>
+<img src="/images/pdf.jpg" alt="pdf" width="30%"/>
 </p>
 
 ## Tools used
